@@ -15,6 +15,8 @@ image bg_diner = "bg/diner.png"
 image city_1 = "bg/city_1.png"
 image city_2 = "bg/city_2.png"
 image city_3 = "bg/city_3.png"
+image lab = "bg/lab.png"
+image street_1 = "bg/street_1.png"
 
 
 # character images
@@ -39,12 +41,16 @@ image side viktor:
 init python:
     # Define attributes and set initial values
     money = 20
-    trust = 0
+    trust = 50
     morality = 50
 
     health = 100
     attack = 10
     defense = 10
+
+
+
+    bill = 10
 
 
 label screen_shake:
@@ -101,16 +107,19 @@ label start:
 
     show city_1
 
+    voice "voice/desc_in_the_futuristic.mp3"
     "In the futuristic city of NeoKorpus, advanced cybernetics and AI have become an integral part of society."
     
     show city_3
 
+    voice "voice/desc_the_line_between.mp3"
     " The line between humans and machines blurs as people augment their bodies and minds with technology"
 
     show city_2
-
+    voice "voice/desc_the_city.mp3"
     "The city is a bustling metropolis, filled with people from all walks of life. It is a place of opportunity, but also of danger."
 
+    voice "voice/desc_amidst_this.mp3"
     "Amidst this cybernetic renaissance, a mysterious and dangerous conspiracy is brewing—one that threatens to undermine the very fabric of NeoKorpus."
 
     #fade out audio
@@ -129,15 +138,20 @@ label start:
     show alex
     with dissolve
     
-
+    voice "voice/alex_mmm.mp3"
     alex "(Muffled) Mmm..."
+
+    voice "voice/alex_this_is_one.mp3"
     alex "This is one huge burger!"
+
 
     alex "(Takes another bite and accidentally spills a bit of mustard on the table.)"
 
+    voice "voice/alex_opps.mp3"
     alex "Oops!"
     
     #shake screen
+    voice "voice/alex_ok_i_need_to_eat.mp3"
     alex "Okay, I need to eat this thing without making a mess."
 
     hide alex
@@ -147,23 +161,93 @@ label start:
     call phone_rings
     # This ends the game.
 
+
+    voice "voice/olivia_hey_alex_how.mp3"
     olivia "Hey, Alex! How's it going?"
 
+    voice "voice/alex_oh_hey_olivia.mp3"
     alex "Oh, hey Olivia! I'm just having dinner at the diner."
 
+    voice "voice/olivia_oh_thats_nice.mp3"
     olivia "Oh, that's nice. Listen, I need your help with something."
 
+    voice "voice/alex_sure_what_is_it.mp3"
     alex "Sure, what is it?"
 
+    voice "voice/olivia_i_am_at_the.mp3"
     olivia "I'm at the lab right now, and I need you to come over and help me with something."
 
-    alex "Okay, I'll be right there."
+    voice "voice/alex_is_everything_ok.mp3"
+    alex "Is everything okay? You sound a bit stressed."
 
-    olivia "Great! See you soon."
+    voice "voice/olivia_well_i_am_not_sure.mp3"
+    olivia "Well, I'm not sure. I will tell you more when you get here."
+
+    voice "voice/alex_ok_i_will_be_there.mp3"
+    alex "Okay, I'll be there in a bit."
+
+    voice "voice/olivia_thanks_alex.mp3"
+    olivia "Thanks, Alex. See you soon."
+
+
 
     #fade out
 
+    "(Hangs up the phone)"
+
+    show alex
+    alex "I wonder what's going on."
+    hide alex
+
+    show mia
+    # mia is a waitress at the diner
+    mia "Here is your bill, ma'am."
+
+    show screen attributes_screen
+
     
+
+    menu:
+        "It's [bill] dollars."
+        "Pay the bill":
+            # If the player has enough money, continue the game.
+            $ money -= 10
+            "You pay the bill"
+
+        "Haggle (Roll >=10)":
+            $ random_roll = renpy.random.randint(1, 20)
+            "You roll a [random_roll]."
+            
+            if random_roll >= 10:
+                $ bill = 5
+                $ money -= bill
+
+                "You successfully haggle. The bill is now [bill] dollars."
+                $ renpy.notify("You successfully haggle.")
+            else:
+                "You fail to haggle. And pay full price"
+                $ money -= bill
+                $ renpy.notify("You fail to haggle.")
+
+
+    mia "Thank you for your business. Have a nice day!"
+    hide mia
+
+
+    # The game continues here.
+
+    alex "I need to get to the lab as soon as possible."
+
+    jump streets
+    # This ends the game.
     
+
+    return
+
+
+
+label streets:
+
+    "this is the streets"
 
     return

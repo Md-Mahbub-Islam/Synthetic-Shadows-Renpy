@@ -1,28 +1,22 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 71, in script
-    with shake
-  File "game/script.rpy", line 71, in <module>
-    with shake
-NameError: name 'shake' is not defined
+  File "game/script.rpy", line 224, in script
+    notify "You successfully haggle. The bill is now [bill] dollars."
+Exception: Sayer 'notify' is not defined.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 71, in script
-    with shake
-  File "D:\renpy-8.1.1-sdk\renpy\ast.py", line 1671, in execute
-    trans = renpy.python.py_eval(self.expr)
-  File "D:\renpy-8.1.1-sdk\renpy\python.py", line 1153, in py_eval
-    return py_eval_bytecode(code, globals, locals)
-  File "D:\renpy-8.1.1-sdk\renpy\python.py", line 1146, in py_eval_bytecode
-    return eval(bytecode, globals, locals)
-  File "game/script.rpy", line 71, in <module>
-    with shake
-NameError: name 'shake' is not defined
+  File "game/script.rpy", line 224, in script
+    notify "You successfully haggle. The bill is now [bill] dollars."
+  File "D:\renpy-8.1.1-sdk\renpy\ast.py", line 890, in execute
+    who = eval_who(self.who, self.who_fast)
+  File "D:\renpy-8.1.1-sdk\renpy\ast.py", line 783, in eval_who
+    raise Exception("Sayer '%s' is not defined." % who)
+Exception: Sayer 'notify' is not defined.
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.1.23060707
 Synthetic Shadows 1.0
-Fri Aug  4 03:15:41 2023
+Tue Aug 29 15:41:33 2023
