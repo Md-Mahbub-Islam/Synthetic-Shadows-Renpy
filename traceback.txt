@@ -1,22 +1,26 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 224, in script
-    notify "You successfully haggle. The bill is now [bill] dollars."
-Exception: Sayer 'notify' is not defined.
+  File "game/script.rpy", line 453, in script
+    $ notify("You got 5 dollars!")
+  File "game/script.rpy", line 453, in <module>
+    $ notify("You got 5 dollars!")
+NameError: name 'notify' is not defined
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 224, in script
-    notify "You successfully haggle. The bill is now [bill] dollars."
-  File "D:\renpy-8.1.1-sdk\renpy\ast.py", line 890, in execute
-    who = eval_who(self.who, self.who_fast)
-  File "D:\renpy-8.1.1-sdk\renpy\ast.py", line 783, in eval_who
-    raise Exception("Sayer '%s' is not defined." % who)
-Exception: Sayer 'notify' is not defined.
+  File "game/script.rpy", line 453, in script
+    $ notify("You got 5 dollars!")
+  File "D:\renpy-8.1.1-sdk\renpy\ast.py", line 1138, in execute
+    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
+  File "D:\renpy-8.1.1-sdk\renpy\python.py", line 1122, in py_exec_bytecode
+    exec(bytecode, globals, locals)
+  File "game/script.rpy", line 453, in <module>
+    $ notify("You got 5 dollars!")
+NameError: name 'notify' is not defined
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.1.1.23060707
 Synthetic Shadows 1.0
-Tue Aug 29 15:41:33 2023
+Wed Aug 30 00:22:11 2023

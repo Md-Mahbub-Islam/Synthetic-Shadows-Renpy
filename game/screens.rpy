@@ -1621,3 +1621,16 @@ screen attributes_screen():
 screen ShakeScreen:
     # The main viewport to shake.
     add "gui" at shake_x, shake_y
+
+
+screen battle_screen():
+    frame:
+        # background "battlescreen.png"  # Replace with your battle background image.
+        vbox:
+            text "Player Health: [player_health]/100"
+            text "AI Health: [ai_health]/100"
+            hbox:
+                textbutton "Attack":
+                    action [Function(battle_player_turn)]
+                textbutton "Defend":
+                    action [Function(battle_ai_turn)]

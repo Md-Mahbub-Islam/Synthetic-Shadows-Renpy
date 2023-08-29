@@ -9,6 +9,8 @@ define olivia = Character("Olivia", color="#02a474", image="olivia")
 define mia = Character("Mia", color="#a90202", image="mia")
 define viktor = Character("Viktor", color="#a90202", image="viktor")
 
+define pedestrian_1 = Character("Pedestrian", color="#a90202", image="pedestrian_1")
+define scavenger_1 = Character("Scavenger", color="#a90202", image="scavenger_1")
 
 # images
 image bg_diner = "bg/diner.png"
@@ -17,6 +19,7 @@ image city_2 = "bg/city_2.png"
 image city_3 = "bg/city_3.png"
 image lab = "bg/lab.png"
 image street_1 = "bg/street_1.png"
+image street_2 = "bg/street_2.png"
 
 
 # character images
@@ -37,6 +40,11 @@ image side viktor:
     im.FactorScale("ch/side_viktor.png", 0.5, 0.5)
 
 
+image pedestrian_1 = "ch/pedestrian_1.png"
+image side pedestrian_1:
+    im.FactorScale("ch/side_pedestrian_1.png", 0.5, 0.5)
+
+
 
 init python:
     # Define attributes and set initial values
@@ -44,14 +52,42 @@ init python:
     trust = 50
     morality = 50
 
-    health = 100
-    attack = 10
-    defense = 10
+    player_health = 100
+    player_attack = 10
+    player_defense = 10
 
-
+    ai_health = 50
+    ai_attack = 5
+    ai_defense = 5
 
     bill = 10
+    cred_balance = 10000
 
+
+
+    #choices
+    cred_chip_taken = False
+    cred_given = 0
+
+
+    #functions
+    def battle_player_turn():
+        global ai_health
+        damage = 10 # Replace with your damage calculation logic.
+        ai_health -= damage
+        if ai_health <= 0:
+            renpy.jump("victory_label")
+            pass
+        else:
+            battle_ai_turn()  # AI's turn.
+
+    def battle_ai_turn():
+        global player_health
+        damage = 5  # Replace with AI's damage calculation logic.
+        player_health -= damage
+        if player_health <= 0:
+            renpy.jump("defeat_label")
+            pass
 
 label screen_shake:
     # Play a sound effect if desired.
@@ -79,8 +115,11 @@ label screen_shake:
 label phone_rings:
     #loop forever
     while True:
+        #play sound
+        play sound "sfx/telephone-ring.mp3"
         "Phone rings"
         "Beep! Beep!"
+
 
         "Do you want to answer the phone?"
 
@@ -192,7 +231,7 @@ label start:
 
 
     #fade out
-
+    play sound "sfx/phone-disconnect-1.mp3"
     "(Hangs up the phone)"
 
     show alex
@@ -238,7 +277,7 @@ label start:
 
     alex "I need to get to the lab as soon as possible."
 
-    jump streets
+    jump streets_1
     # This ends the game.
     
 
@@ -246,8 +285,195 @@ label start:
 
 
 
-label streets:
+label streets_1:
+    show street_1
+    "Alex walks down the street towards the lab."
 
-    "this is the streets"
+    show alex
+    alex "I wonder what Olivia needs my help with."
+    alex "I hope everything is okay."
+    alex "What is this?"
+
+    "She finds a strange device on the ground."
+
+    alex "It looks like a credit chip!!!"
+
+    
+    menu:
+        "Check the balance":
+
+            "You check the balance on the credit chip."
+            "It has [cred_balance] dollars on it. OMG!"
+
+    menu:
+        "Take the credit chip":
+            "You take the credit chip."
+            $ cred_chip_taken = True
+            $ cred_given = 1
+        "Leave it":
+            "You leave the credit chip on the ground."
+
+    alex "I should get to the lab as soon as possible."
+
+
+            
+    jump streets_2
 
     return
+
+
+label streets_2:
+    show street_2
+
+    show alex
+
+    alex "Hmm, who is this?"
+
+    hide alex
+    show pedestrian_1
+
+    pedestrian_1 "Excuse me, sorry to bother you, but I need some help."
+
+    hide pedestrian_1
+    show alex
+
+    alex "What is it?"
+
+    hide alex
+    show pedestrian_1
+
+    pedestrian_1 "Have you seen a credit chip around here?"
+
+    hide pedestrian_1
+
+    if cred_chip_taken ==True:
+        show alex
+
+        menu:
+            "Yes (Tell the truth)":
+                $ cred_chip_taken = False
+                $ cred_given = 2
+                $ morality += 10
+                $ renpy.notify("Morality Increased!")
+                "You tell the truth."
+                alex "Yes, I found it on the ground over there."
+                alex "Here you go."
+                alex "I hope you find what you are looking for."
+                alex "Have a nice day!"
+                alex "I should get going now."
+
+                
+            "No (Lie)":
+                $ morality -= 20
+                $ renpy.notify("Morality Decreased!")
+                "You lie."
+                alex "No, I haven't seen it."
+                alex "Sorry, I can't help you."
+                alex "I should get going now."
+
+    else:
+        show alex
+        alex "No, I haven't seen it."
+        alex "Sorry, I can't help you."
+        alex "I should get going now."
+
+    hide alex
+
+    if cred_given == 2:
+        show pedestrian_1
+        pedestrian_1 "Thank you so much!"
+        pedestrian_1 "You are a lifesaver!"
+        pedestrian_1 "I hope you have a nice day!"
+        hide pedestrian_1
+        jump battle_happen
+
+    if cred_given == 1:
+        show viktor
+        viktor "I know you have the credit chip."
+        viktor "Give it to me now!"
+        "He takes away the chip from your forcefully"
+        $ cred_given = 0
+        $ cred_chip_taken = False
+        hide viktor
+        "He vanishes into thin air via teleportation"
+
+
+
+    show alex
+    alex "Well, there goes my good deed for the day."
+    alex "Who was that guy anyways?"
+
+
+
+    return
+
+
+label battle_happen:
+    show street_2
+    show scavenger_1
+
+    scavenger_1 "Not so fast!"
+    scavenger_1 "I am going to take that credit chip from you!"
+
+    hide scavenger_1
+    show pedestrian_1
+    pedestrian_1 "Oh no! It's a scavenger! Aaaaaaaaah!"
+
+    hide pedestrian_1
+    show alex
+
+    alex "What a day this is turning out to be."
+
+    "Battle Begins"
+
+    #show alex to the left
+    
+    show screen battle_screen
+
+    show alex at left
+    show scavenger_1 at right
+
+
+    "agh agh agh"
+
+
+
+    return
+
+
+
+label victory_label:
+    hide screen battle_screen
+    hide scavenger_1
+    hide alex
+    show scavenger_1 at center
+    
+    scavenger_1 "Damn you! I will get you next time!"
+    hide scavenger_1
+    "The scavenger runs away."
+
+    "The scavenger drops few dollars on ground."
+    $ renpy.notify("You got 5 dollars!")
+    $ money += 5
+
+    show pedestrian_1
+    pedestrian_1 "Thank you so much!"
+    pedestrian_1 "You are a lifesaver!"
+    $ renpy.notify("Trust increased!")
+    $ trust += 10
+    hide pedestrian_1
+
+    show alex
+    alex "I should get going now. Olivia is waiting for me at the lab."
+
+    return
+
+
+label defeat_label:
+    hide screen battle_screen
+    
+
+    alex "Agh he is too strong!"
+
+    "Game Over!"
+    return 

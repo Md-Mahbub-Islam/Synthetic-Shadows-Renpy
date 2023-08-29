@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 19: expected expression
-    image street_1 = 
-                     ^
+File "game/script.rpy", line 447: expected statement.
+    hid
+       ^
 
 Ren'Py Version: Ren'Py 8.1.1.23060707
-Tue Aug 29 15:47:47 2023
+Wed Aug 30 00:23:58 2023
