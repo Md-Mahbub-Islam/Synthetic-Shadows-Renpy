@@ -2,9 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 96: end of line expected.
-    textbutton "Shake" action [Jump('screen_shake_example')]
-                       ^
+File "game/script.rpy", line 10: expected statement.
+    def
+       ^
 
 Ren'Py Version: Ren'Py 8.1.1.23060707
-Fri Aug  4 03:18:02 2023
+Tue Aug 29 13:23:37 2023

@@ -4,8 +4,10 @@
 # name of the character.
 
 define e = Character("Eileen")
-define alex = Character("Alex", color="#ae10a9")
-define olivia = Character("Olivia", color="#02a474")
+define alex = Character("Alex", color="#ae10a9", image="alex")
+define olivia = Character("Olivia", color="#02a474", image="olivia")
+define mia = Character("Mia", color="#a90202", image="mia")
+define viktor = Character("Viktor", color="#a90202", image="viktor")
 
 
 # images
@@ -15,13 +17,28 @@ image city_2 = "bg/city_2.png"
 image city_3 = "bg/city_3.png"
 
 
-
+# character images
 image alex = "ch/alex.png"
+image side alex:
+    im.FactorScale("ch/side_alex.png", 0.5, 0.5)
+
 image olivia = "ch/olivia.png"
+image side olivia:
+    im.FactorScale("ch/side_olivia.png", 0.5, 0.5)
+
+image mia = "ch/mia.png"
+image side mia:
+    im.FactorScale("ch/side_mia.png", 0.5, 0.5)
+
+image viktor = "ch/viktor.png"
+image side viktor:
+    im.FactorScale("ch/side_viktor.png", 0.5, 0.5)
+
+
 
 init python:
     # Define attributes and set initial values
-    money = 0
+    money = 20
     trust = 0
     morality = 50
 
@@ -125,10 +142,28 @@ label start:
 
     hide alex
 
-    show olivia
-    olivia "Hey, Alex!"
+    
 
     call phone_rings
     # This ends the game.
+
+    olivia "Hey, Alex! How's it going?"
+
+    alex "Oh, hey Olivia! I'm just having dinner at the diner."
+
+    olivia "Oh, that's nice. Listen, I need your help with something."
+
+    alex "Sure, what is it?"
+
+    olivia "I'm at the lab right now, and I need you to come over and help me with something."
+
+    alex "Okay, I'll be right there."
+
+    olivia "Great! See you soon."
+
+    #fade out
+
+    
+    
 
     return
